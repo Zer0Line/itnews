@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.news.it.R
+import com.news.it.db.entity.RssNewsEntity
 import com.news.it.model.NewsItem
 
 class NewsAdapter(
@@ -12,7 +13,7 @@ class NewsAdapter(
     private val onNewsClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<NewsViewHolder>() {
 
-    private var items: List<NewsItem> = ArrayList()
+    private var items: List<RssNewsEntity> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(
@@ -26,12 +27,12 @@ class NewsAdapter(
         holder.setOnClickListener { onNewsClick(position) }
     }
 
-    fun updateData(models: List<NewsItem>) {
-        items = models
+    fun updateData(models: List<RssNewsEntity>?) {
+        items = models ?: listOf()
         notifyDataSetChanged()
     }
 
-    fun getItem(pos: Int): NewsItem {
+    fun getItem(pos: Int): RssNewsEntity {
         return items[pos]
     }
 

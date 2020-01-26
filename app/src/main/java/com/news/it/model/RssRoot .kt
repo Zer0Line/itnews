@@ -1,7 +1,10 @@
 package com.news.it.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonRootName
+import com.fasterxml.jackson.databind.JsonNode
 import java.util.*
+import kotlin.collections.LinkedHashMap
 import kotlin.random.Random
 
 data class RssRoot(
@@ -15,8 +18,22 @@ data class Channel(
     @JsonProperty("description")
     val description: String?,
     @JsonProperty("item")
-    val RssItem: List<NewsItem>?
-)
+    val rssItem: List<NewsItem>?
+) {
+
+    var _link: String = ""
+    var linkData: LinkedHashMap<*, *>? = null
+
+    @JsonProperty("link")
+    var link: Any? = null
+        set(value) {
+            when (value) {
+                is String -> _link = value
+                is LinkedHashMap<*, *> -> linkData = value
+            }
+            field = value
+        }
+}
 
 data class NewsItem(
     @JsonProperty("title")
@@ -28,16 +45,21 @@ data class NewsItem(
     @JsonProperty("link")
     val link: String?,
     @JsonProperty("dc")
-    val creator: String?
+    val creator: String?,
+    @JsonProperty("guid")
+    val _guid: LinkedHashMap<String, String>?
+
 ) {
     var imageLink: String = ""
     var imageDesc: String = ""
-    //todo: temp filed, test for RssStateView
-    val read: Boolean = Random.nextBoolean()
+    var guid: String = ""
 
     init {
         val split: List<String>? = description?.split("\n")
-        imageDesc = split?.get(0) ?: ""
-        imageLink = split?.get(1)?.substringAfter("src=&quot;")?.substringBefore("&quot;") ?: ""
+        imageDesc = split?.get(0)?.trim() ?: ""
+        imageLink = split?.get(1)?.
+            substringAfter("src=&quot;")?.
+            substringBefore("&quot;")?.trim() ?: ""
+        guid = _guid?.values?.last() ?: ""
     }
 }

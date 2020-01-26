@@ -8,15 +8,17 @@ import com.news.it.db.entity.RssNewsEntity
 
 class DbRepository(private val rssChannelDao: RssChannelDao, private val rssNewsDao: RssNewsDao) {
 
-    // Room executes all queries on a separate thread.
-    // Observed LiveData will notify the observer when the data has changed.
     val channels: LiveData<List<RssChannelEntity>> = rssChannelDao.getChannels()
 
-    suspend fun insert(channel: RssChannelEntity) {
-        rssChannelDao.insert(channel)
+    suspend fun getNews(): List<RssNewsEntity> {
+        return rssNewsDao.getNews()
     }
 
-    suspend fun insertNews(news: RssNewsEntity) {
-        rssNewsDao.insert(news)
+    suspend fun insert(channel: RssChannelEntity): Long {
+        return rssChannelDao.insert(channel)
+    }
+
+    suspend fun insertNews(news: List<RssNewsEntity>) {
+        rssNewsDao.insertAll(news)
     }
 }

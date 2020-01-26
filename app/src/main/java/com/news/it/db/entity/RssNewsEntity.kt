@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(
-    tableName = "news", foreignKeys = [ForeignKey(
+    tableName = "news",
+    foreignKeys = [ForeignKey(
         entity = RssChannelEntity::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("channelId"),
@@ -16,9 +17,9 @@ import java.util.*
 )
 data class RssNewsEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    val id: Long? = null,
     @ColumnInfo(name = "channelId")
-    val channelId: String,
+    val channelId: Long,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "description")
@@ -34,5 +35,5 @@ data class RssNewsEntity(
     @ColumnInfo(name = "imageDesc")
     val imageDesc: String?,
     @ColumnInfo(name = "read")
-    val read: Boolean?
+    val read: Boolean = false
 )

@@ -28,10 +28,7 @@ abstract class NewsDatabase : RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    val newsDao: RssNewsDao = database.newsDao()
-
-                    // Delete all content here.
-                    //orderDao.deleteAll()
+                    //todo: "add some actions"
                 }
             }
         }
@@ -45,19 +42,16 @@ abstract class NewsDatabase : RoomDatabase() {
             context: Context,
             scope: CoroutineScope
         ): NewsDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     NewsDatabase::class.java,
-                    "mrmk_database"
+                    "news_database"
                 )
                     .fallbackToDestructiveMigration()
                     .addCallback(CRDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
-                // return instance
                 instance
             }
         }

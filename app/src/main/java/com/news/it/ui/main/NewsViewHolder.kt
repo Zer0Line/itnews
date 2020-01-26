@@ -3,6 +3,7 @@ package com.news.it.ui.main
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.news.it.db.entity.RssNewsEntity
 import com.news.it.model.NewsItem
 import com.news.it.ui.views.NewsState
 import com.news.it.ui.views.RssStateView
@@ -17,7 +18,7 @@ class NewsViewHolder(view_: View) : RecyclerView.ViewHolder(view_) {
     private val rssState: RssStateView = view_.rssState
 
     fun bind(
-        news: NewsItem
+        news: RssNewsEntity
     ) {
         titleTV.text = news.title
         descriptionTV.text = news.imageDesc

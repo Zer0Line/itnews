@@ -1,6 +1,5 @@
 package com.news.it.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.news.it.db.entity.RssNewsEntity
 
@@ -8,10 +7,13 @@ import com.news.it.db.entity.RssNewsEntity
 interface RssNewsDao {
 
     @Query("SELECT * from news")
-    fun getNews(): LiveData<List<RssNewsEntity>>
+    suspend fun getNews(): List<RssNewsEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(order: RssNewsEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(news: List<RssNewsEntity>)
 
     @Query("DELETE FROM news")
     suspend fun deleteAll()

@@ -14,7 +14,7 @@ interface RssChannelDao {
     fun getChannels(): LiveData<List<RssChannelEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(good: RssChannelEntity)
+    suspend fun insert(good: RssChannelEntity): Long
 
     @Query("DELETE FROM channel")
     suspend fun deleteAll()
