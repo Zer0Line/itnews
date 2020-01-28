@@ -1,11 +1,7 @@
 package com.news.it.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonRootName
-import com.fasterxml.jackson.databind.JsonNode
 import java.util.*
-import kotlin.collections.LinkedHashMap
-import kotlin.random.Random
 
 data class RssRoot(
     @JsonProperty("channel")
