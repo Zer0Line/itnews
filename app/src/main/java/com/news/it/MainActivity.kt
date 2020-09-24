@@ -1,7 +1,7 @@
 package com.news.it
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.news.it.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {

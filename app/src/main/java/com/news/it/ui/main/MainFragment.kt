@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.news.it.R
-import com.news.it.model.NewsItem
-import com.news.it.model.RssRoot
+import com.news.it.ViewModelFactoryImpl
+import com.news.it.domain.model.ChannelNews
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -31,7 +31,9 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initNewsAdapter()
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        val factory = ViewModelFactoryImpl(context!!)
+        viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
         observe()
     }
 
@@ -43,13 +45,14 @@ class MainFragment : Fragment() {
     private fun observe() {
         with(viewModel) {
             rssData.observe(viewLifecycleOwner, Observer { rss ->
-                showData(rss)
+                showData(rss.peekContent())
             })
             rssLoading.observe(viewLifecycleOwner, Observer { loading ->
                 switchProgress(loading)
             })
-            loadingError.observe(viewLifecycleOwner, Observer {
-                showError()
+            loadingError.observe(viewLifecycleOwner, Observer { error ->
+                if (!error.hasBeenHandled) showError()
+
             })
         }
     }
@@ -71,8 +74,8 @@ class MainFragment : Fragment() {
         mainProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
     }
 
-    private fun showData(rss: RssRoot?) {
-        newsAdapter.updateData(rss?.channel?.RssItem as List<NewsItem>)
+    private fun showData(rss: List<ChannelNews>?) {
+        newsAdapter.updateData(rss)
     }
 
     private fun showError() {

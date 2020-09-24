@@ -1,6 +1,5 @@
 package com.news.it.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.news.it.db.entity.RssChannelEntity
 interface RssChannelDao {
 
     @Query("SELECT * from channel")
-    fun getChannels(): LiveData<List<RssChannelEntity>>
+    suspend fun getChannels(): List<RssChannelEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(good: RssChannelEntity): Long
